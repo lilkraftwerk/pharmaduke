@@ -8,8 +8,12 @@ class TripReport
   end
 
   def get_file
-    @file = JSON.parse(File.open(@trips.shuffle.first).read)
-    get_file until !@file.empty?
+    filename = @trips.shuffle.first
+    puts filename
+    @file = JSON.parse(File.open(filename).read)
+    if @file.empty?
+      get_file
+    end
   end
 
   def split_sentences
@@ -18,6 +22,11 @@ class TripReport
 
   def random_line
     line = @split.shuffle.first
+    unless line["DOSE"].nil? && line["BODY WEIGHT"].nil?
+      random_line
+    else
+      return line
+    end
   end
 end
 
@@ -27,7 +36,7 @@ end
   trip = TripReport.new
   line = trip.random_line
   length = line.length
-  until length < 120 && length > 30
+  until length < 140 && length > 20
     line = trip.random_line
     length = line.length
   end
