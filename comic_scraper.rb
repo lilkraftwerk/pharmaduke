@@ -52,14 +52,18 @@ def get_strip_url
   true
 end
 
-def get_strip
+def get_strip_page
   page_url = format_page_url
-  puts page_url
 end
 
-def write_strip(name)
+def get_strip_url
+  page_url = get_strip_page
+  Nokogiri::HTML(open(page_url)).css('.strip').attr('src').value
+end
+
+def write_strip(url)
   begin
-    url = format_image_string
+    url = get_strip_url
     image = Magick::ImageList.new
     urlimage = open(url)
     image.from_blob(urlimage.read)
@@ -68,7 +72,9 @@ def write_strip(name)
     retry
   else
     puts "we made it, writing image"
-    image.write("tmp/strip_#{name}.gif")
+    image.write("tmp/strip_#{rand(10)}.gif")
   end
 end
+
+get_strip_url
 
