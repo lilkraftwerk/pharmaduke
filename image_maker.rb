@@ -16,7 +16,7 @@ class ImageMaker
     background_filename = make_background
     background_image = Magick::Image.read(background_filename)[0]
     @final = background_image.composite(@image, 7.5, 5, Magick::OverCompositeOp)
-    @new_filename = "output/#{Time.now}.png"
+    @new_filename = "tmp/#{Time.now}.png"
     @final.write(@new_filename)
   end
 
