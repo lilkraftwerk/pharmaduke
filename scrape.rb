@@ -45,4 +45,21 @@ def get_all_trips
   end
 end
 
-get_all_trips
+def get_all_good_trips
+  good_trips = []
+  File.open('goodones.txt').each do |line|
+    good_trips << line.to_i
+  end
+
+  good_trips.map{|line| line.to_s}.each do |trip_number|
+    puts "On number #{trip_number}"
+    if File.exist?("trips/#{trip_number}.json")
+      puts "File #{trip_number} already exists. Skipping..."
+    else
+      puts "Doing #{trip_number}"
+      trip = TripReportScraper.new(trip_number) 
+    end
+  end
+end
+
+get_all_good_trips

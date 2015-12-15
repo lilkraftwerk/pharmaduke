@@ -34,6 +34,7 @@ class TripReport
     return false unless line["BODY WEIGHT"].nil?
     return false unless line.length > 30
     return false unless line.length < 120
+    return false unless ('A'..'Z').include?(line[0])
     return true
   end
 end
