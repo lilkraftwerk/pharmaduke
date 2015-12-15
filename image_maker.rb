@@ -51,4 +51,4 @@ class ImageMaker
   end
 end
 
-45.times {n = ImageMaker.new}
+100.times {n = ImageMaker.new}
