@@ -6,6 +6,8 @@ def tweet
   image = ImageMaker.new
   filename = image.new_filename
   tweeter = CustomTwitter.new
+  puts filename
+  puts "about to tweet"
   tweeter.update('test', File.open(filename))
 end
 
