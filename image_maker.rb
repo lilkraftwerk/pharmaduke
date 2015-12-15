@@ -4,7 +4,6 @@ require_relative 'comic_scraper'
 require 'imgkit'
 require 'json'
 require 'pathname'
-require 'pry'
 
 class ImageMaker
   attr_reader :new_filename
