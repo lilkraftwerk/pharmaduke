@@ -12,6 +12,7 @@ class ImageMaker
   def initialize
     @report = TripReport.new
     get_strip
+    find_bottom_of_comic
     crop_image
     background_filename = make_background
     background_image = Magick::Image.read(background_filename)[0]
@@ -28,15 +29,33 @@ class ImageMaker
     puts "height: #{@image.rows}, width: #{@image.columns}"
   end
 
+  def find_bottom_of_comic
+    adjusted_height = @image.rows - 12
+    candidates = (285..adjusted_height).to_a
+    results = {}
+    candidates.each do |y_value|
+      ## pixel_color(x, y)
+      results[y_value] = test_line_in_comic(y_value) 
+    end
+    puts results
+    # binding.pry
+    @comic_bottom = results.sort_by{|k, v| v}.first.first
+  end
+
+  def test_line_in_comic(y_value)
+    total = 0
+    300.times do |x_value|
+      color = @image.pixel_color(x_value, y_value)
+      total += color.red / 257
+      total += color.green / 257
+      total += color.blue / 257
+    end
+    return total 
+  end
+
   def crop_image
     width = 300
-    if @image.rows <= 316
-      puts "LOWER" * 3
-      height = 292
-    else
-      puts "HIGHER" * 3
-      height = 300
-    end
+    height = @comic_bottom + 2
     @image = @image.crop(0, 0, width, height)
   end
 

@@ -8,6 +8,11 @@ def tweet
   tweeter.update('test', File.open(filename))
 end
 
+def local_image
+  image = ImageMaker.new
+  filename = image.new_filename
+end
+
 def should_tweet?
   last_tweet_older_than_four_hours?
 end
@@ -20,3 +25,5 @@ def last_tweet_older_than_four_hours?
   client = CustomTwitter.new
   client.is_last_tweet_older_than_four_hours
 end
+
+12.times {local_image}
