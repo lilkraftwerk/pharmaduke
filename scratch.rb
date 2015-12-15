@@ -9,6 +9,11 @@ require_relative 'report_line'
 
 t = ComicScraper.new
 
-100.times do 
-  p t.format_page_url
+test = []
+
+1_000_000.times do |x|
+  p x if x % 1000 == 0
+  test << t.format_page_url
 end
+
+p test.uniq.length

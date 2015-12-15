@@ -32,9 +32,9 @@ class TripReport
   def line_is_good?(line)
     return false unless line["DOSE"].nil?
     return false unless line["BODY WEIGHT"].nil?
-    return false unless line.length > 30
-    return false unless line.length < 120
-    return false unless ('A'..'Z').include?(line[0])
+    return false unless line.length > 40
+    return false unless line.length < 135
+    # return false unless ('A'..'Z').include?(line[0])
     return true
   end
 end

@@ -4,18 +4,24 @@ require_relative 'comic_scraper'
 require 'imgkit'
 require 'json'
 require 'pathname'
+require 'pry'
 
 class ImageMaker
   def initialize
     @report = TripReport.new
-    @filename = ComicScraper.new.write_strip
-    @image = Magick::Image.read(@filename)[0]
+    get_strip
     @image = @image.crop(0, 0, 300, 300)
     background_filename = make_background
     background_image = Magick::Image.read(background_filename)[0]
     @final = background_image.composite(@image, 7.5, 5, Magick::OverCompositeOp)
     @new_filename = "output/#{Time.now}.png"
     @final.write(@new_filename)
+  end
+
+  def get_strip
+    @filename = ComicScraper.new.write_strip
+    @image = Magick::Image.read(@filename)[0]
+    get_strip if @image.columns > 310
   end
 
   def make_background
@@ -45,4 +51,4 @@ class ImageMaker
   end
 end
 
-20.times {n = ImageMaker.new}
+45.times {n = ImageMaker.new}
