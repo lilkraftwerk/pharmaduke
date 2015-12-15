@@ -25,20 +25,14 @@ class ImageMaker
     @filename = ComicScraper.new.write_strip
     @image = Magick::Image.read(@filename)[0]
     get_strip if @image.columns > 310
-    puts "*" * 10
-    puts "height: #{@image.rows}, width: #{@image.columns}"
   end
 
   def find_bottom_of_comic
-    adjusted_height = @image.rows - 12
-    candidates = (285..adjusted_height).to_a
     results = {}
-    candidates.each do |y_value|
-      ## pixel_color(x, y)
+    adjusted_height = @image.rows - 12
+    (285..adjusted_height).to_a.each do |y_value|
       results[y_value] = test_line_in_comic(y_value) 
     end
-    puts results
-    # binding.pry
     @comic_bottom = results.sort_by{|k, v| v}.first.first
   end
 

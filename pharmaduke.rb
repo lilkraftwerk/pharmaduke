@@ -26,4 +26,3 @@ def last_tweet_older_than_four_hours?
   client.is_last_tweet_older_than_four_hours
 end
 
-12.times {local_image}
