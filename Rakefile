@@ -1,6 +1,6 @@
 $LOAD_PATH << "."
 
-require 'trebekbot'
+require 'pharmaduke'
 
 task :tweet do 
   tweet

@@ -7,6 +7,8 @@ require 'pathname'
 require 'pry'
 
 class ImageMaker
+  attr_reader :new_filename
+
   def initialize
     @report = TripReport.new
     get_strip
@@ -64,5 +66,3 @@ class ImageMaker
     ].join("")
   end
 end
-
-31.times {n = ImageMaker.new}

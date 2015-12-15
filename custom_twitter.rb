@@ -2,9 +2,7 @@ require 'twitter'
 require 'active_support'
 require 'active_support/time'
 
-unless ENV["HEROKTRUE"]
-  require_relative 'keys.rb'
-end
+require_relative 'keys.rb' unless ENV["HEROKTRUE"]
 
 TWITTER_KEY ||= ENV["TWITTER_KEY"]
 TWITTER_SECRET ||= ENV["TWITTER_SECRET"]
