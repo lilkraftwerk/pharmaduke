@@ -22,24 +22,18 @@ class TripReport
 
   def random_line
     line = @split.shuffle.first
-    unless line["DOSE"].nil? && line["BODY WEIGHT"].nil?
+    unless line_is_good?(line)
       random_line
     else
       return line
     end
   end
-end
 
-
-10.times do |x|
-  length = 200 
-  trip = TripReport.new
-  line = trip.random_line
-  length = line.length
-  until length < 140 && length > 20
-    line = trip.random_line
-    length = line.length
+  def line_is_good?(line)
+    return false unless line["DOSE"].nil?
+    return false unless line["BODY WEIGHT"].nil?
+    return false unless line.length > 30
+    return false unless line.length < 120
+    return true
   end
-  puts line
-  puts
 end
