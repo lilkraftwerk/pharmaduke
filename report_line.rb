@@ -1,4 +1,5 @@
 require 'json'
+require 'scalpel'
 
 class TripReport
   def initialize
@@ -9,7 +10,6 @@ class TripReport
 
   def get_file
     filename = @trips.shuffle.first
-    puts filename
     @file = JSON.parse(File.open(filename).read)
     if @file.empty?
       get_file
@@ -17,7 +17,7 @@ class TripReport
   end
 
   def split_sentences
-    @split = @file['text'].scan(/[^\.!?]+[\.!?]/).map(&:strip)
+    @split = Scalpel.cut(@file['text'])
   end
 
   def random_line
@@ -32,9 +32,9 @@ class TripReport
   def line_is_good?(line)
     return false unless line["DOSE"].nil?
     return false unless line["BODY WEIGHT"].nil?
-    return false unless line.length > 40
-    return false unless line.length < 135
-    # return false unless ('A'..'Z').include?(line[0])
+    return false unless line.length > 50
+    return false unless line.length < 150
+    return false unless ('A'..'Z').include?(line[0])
     return true
   end
 end

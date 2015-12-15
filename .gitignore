@@ -3,3 +3,4 @@ tmp/*.png
 tmp/*.jpg
 output/*
 old_trips
+keys.rb

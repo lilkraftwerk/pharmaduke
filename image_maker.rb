@@ -10,7 +10,7 @@ class ImageMaker
   def initialize
     @report = TripReport.new
     get_strip
-    @image = @image.crop(0, 0, 300, 300)
+    crop_image
     background_filename = make_background
     background_image = Magick::Image.read(background_filename)[0]
     @final = background_image.composite(@image, 7.5, 5, Magick::OverCompositeOp)
@@ -22,6 +22,20 @@ class ImageMaker
     @filename = ComicScraper.new.write_strip
     @image = Magick::Image.read(@filename)[0]
     get_strip if @image.columns > 310
+    puts "*" * 10
+    puts "height: #{@image.rows}, width: #{@image.columns}"
+  end
+
+  def crop_image
+    width = 300
+    if @image.rows <= 316
+      puts "LOWER" * 3
+      height = 292
+    else
+      puts "HIGHER" * 3
+      height = 300
+    end
+    @image = @image.crop(0, 0, width, height)
   end
 
   def make_background
@@ -51,4 +65,4 @@ class ImageMaker
   end
 end
 
-100.times {n = ImageMaker.new}
+31.times {n = ImageMaker.new}
