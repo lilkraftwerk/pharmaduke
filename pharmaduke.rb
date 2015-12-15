@@ -1,5 +1,7 @@
 require_relative 'image_maker'
 require_relative 'custom_twitter'
+require_relative 'config'
+
 
 def tweet
   image = ImageMaker.new
