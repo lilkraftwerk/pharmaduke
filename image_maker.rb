@@ -1,36 +1,67 @@
 require_relative 'report_line'
 require_relative 'comic_scraper'
 
+require 'imgkit'
+require 'json'
+require 'pathname'
+
 class ImageMaker
   def initialize
     @report = TripReport.new
     @filename = ComicScraper.new.write_strip
     @image = Magick::Image.read(@filename)[0]
     @image = @image.crop(0, 0, 300, 300)
-    @background = Magick::Image.read("images/background.png")[0]
-    @final = @background.composite(@image, 0, 0, Magick::OverCompositeOp)
-    write_text
-
-    @final.write("tmp/#{rand(1000)}_crop.png")
-  # new_image.write("tmp/glitch#{format_number(file_number)}.png")
+    # @background = Magick::Image.read("images/background.png")[0]
+    # @final = @background.composite(@image, 0, 0, Magick::OverCompositeOp)
+    @new_filename = "tmp/#{rand(1000)}_crop.png"
+    @image.write(@new_filename)
+    make_file
+    # new_image.write("tmp/glitch#{format_number(file_number)}.png")
   end
 
-  def write_text
-    sentence = word_wrap(@report.random_line)
-    text = Magick::Draw.new
-    text.font = "images/Arial.ttf"
-    text.annotate(@final, 300, 50, 5, 315, sentence) {
-      self.fill = 'Black'
-      self.pointsize = 15
-    }
+  def make_file
+    set_html
+    p @html
+    puts "making file"
+    kit = IMGKit.new(@html, quality: 100, width: 300, height: 350)
+    kit.stylesheets << "css/styles.css"
+    file = kit.to_file("tmp/file#{rand(1..100)}.jpg")
+    file
   end
 
-  def word_wrap(sentence)
-    columns = 47
-    sentence.split("\n").collect do |line|
-      line.length > columns ? line.gsub(/(.{1,#{columns}})(\s+|$)/, "\\1\n").strip : line
-    end * "\n"
+  def set_html
+    p 
+    @html = [
+      "<!DOCTYPE html>",
+      "<html>",
+      "<head>",
+      "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>",
+      "</head",
+      "<body>",
+      "<div class='container'>",
+      "<img class='marmimage' src='/#{File.expand_path(@new_filename)}'>",
+      "<div class='text textbox'>#{@report.random_line}</div></div>",
+      "</body>",
+      "</html>"
+    ].join("")
   end
+
+  # def sentence
+    # sentence = word_wrap(@report.random_line)
+    # text = Magick::Draw.new
+    # text.font = "images/Arial.ttf"
+    # text.annotate(@final, 300, 50, 5, 315, sentence) {
+      # self.fill = 'Black'
+      # self.pointsize = 15
+    # }
+  # end
+
+  # def word_wrap(sentence)
+  #   columns = 47
+  #   sentence.split("\n").collect do |line|
+  #     line.length > columns ? line.gsub(/(.{1,#{columns}})(\s+|$)/, "\\1\n").strip : line
+  #   end * "\n"
+  # end
 
   # def create_image(file_number)
   # puts "creating image #{file_number}"
