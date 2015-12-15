@@ -4,12 +4,13 @@ html {
   /*background-color: rgb(1, 16, 138);*/
 }
 
-.marmimage {
+.blankspace {
   height: 300px;
   width: 300px;
 }
 
-.container {
+.report {
+  text-align: center;
 }
 /*
 @font-face {
