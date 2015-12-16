@@ -1,7 +1,6 @@
 require 'nokogiri'
 require 'json'
 require 'open-uri'
-require 'pry'
 
 class TripReportScraper
   def initialize(trip_number)
