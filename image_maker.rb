@@ -8,7 +8,7 @@ require 'pathname'
 class ImageMaker
   attr_reader :new_filename
 
-  def initialize
+  def initialize(options = {})
     @report = TripReport.new
     get_strip
     find_bottom_of_comic
@@ -16,7 +16,8 @@ class ImageMaker
     background_filename = make_background
     background_image = Magick::Image.read(background_filename)[0]
     @final = background_image.composite(@image, 7.5, 5, Magick::OverCompositeOp)
-    @new_filename = "tmp/#{rand(10000)}.png"
+    @new_filename = "tmp/#{rand(10000)}.png" unless options[:local]
+    @new_filename = "output/#{Time.now}.png" if options[:local]
     @final.write(@new_filename)
   end
 
@@ -43,7 +44,7 @@ class ImageMaker
       total += color.green / 257
       total += color.blue / 257
     end
-    return total 
+    total 
   end
 
   def crop_image
@@ -54,7 +55,6 @@ class ImageMaker
 
   def make_background
     set_html
-    p @html
     puts "making file"
     kit = IMGKit.new(@html, quality: 100, width: 305, height: 400)
     kit.stylesheets << "css/styles.css"

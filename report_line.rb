@@ -25,7 +25,7 @@ class TripReport
     unless line_is_good?(line)
       random_line
     else
-      return line
+      return ['"', line, '"'].join("")
     end
   end
 

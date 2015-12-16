@@ -1,14 +1,18 @@
 require_relative 'comic_scraper'
 require_relative 'report_line'
-
+require_relative 'pharmaduke'
 
 test = []
 
-10.times do |x|
-  t = TripReport.new
-  puts t.random_line
-  puts "*" * 10 
-  puts
+# 10.times do |x|
+#   t = TripReport.new
+#   puts t.random_line
+#   puts "*" * 10 
+#   puts
+# end
+
+100.times do |x|
+  local_image
 end
 
 p test.uniq.length

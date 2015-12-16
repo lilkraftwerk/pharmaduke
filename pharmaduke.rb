@@ -6,14 +6,11 @@ def tweet
   image = ImageMaker.new
   filename = image.new_filename
   tweeter = CustomTwitter.new
-  puts filename
-  puts "about to tweet"
   tweeter.update('test', File.open(filename))
 end
 
 def local_image
-  image = ImageMaker.new
-  filename = image.new_filename
+  image = ImageMaker.new({local: true})
 end
 
 def should_tweet?
