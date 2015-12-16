@@ -34,7 +34,7 @@ class TripReport
   end
 
   def get_dose
-    doses = @file["doses"]
+    doses = @file['doses']
     until doses.join("\n").length < 116
       doses = doses[0..-2]
     end
@@ -43,8 +43,8 @@ class TripReport
   end
 
   def line_is_good?(line)
-    return false unless line["DOSE"].nil?
-    return false unless line["BODY WEIGHT"].nil?
+    return false unless line['DOSE'].nil?
+    return false unless line['BODY WEIGHT'].nil?
     return false unless line.length > 50
     return false unless line.length < 150
     return false unless ('A'..'Z').include?(line[0])

@@ -7,71 +7,57 @@ require 'date'
 
 class ComicScraper
   def format_page_url
-    date = get_date
+    date = format_date
     "http://www.gocomics.com/marmaduke/#{date[:year]}/#{date[:month]}/#{date[:day]}"
   end
 
-  def get_date
+  def format_date
     date = {}
     date[:year] = make_year
     date[:month] = make_month
     date[:day] = make_day
-    if is_sunday?(date)
-      get_date
-    else 
-      return date
-    end
+    format_date if sunday(date)
+    date
   end
 
-  def is_sunday?(date)
-    date_to_test = Date.new(date[:year].to_i, date[:month].to_i, date[:day].to_i)
-    date_to_test.strftime("%A") == "Sunday"
+  def sunday?(date)
+    Date.new(date[:year].to_i, date[:month].to_i, date[:day].to_i)
+    date_to_test.strftime('%A') == 'Sunday'
   end
 
   def make_day
     day = (1..28).to_a.sample
-    if day < 10
-      day = "0#{day}"
-    end
-    day.to_s
+    day = "0#{day}" if day < 10
+    day
   end
 
   def make_month
     month = (1..12).to_a.sample
-    if month < 10
-      month = "0#{month}"
-    end
-    month.to_s
+    "0#{month}" if month < 10
+    month
   end
 
   def make_year
-    year = (1997..2014).to_a.sample
+    (1997..2014).to_a.sample
   end
 
-  def get_strip_url
-    true
-  end
-
-  def get_strip_url
+  def search_for_strip_url
     page_url = format_page_url
-    puts page_url
     Nokogiri::HTML(open(page_url)).css('.strip').attr('src').value
   end
 
   def write_strip
-    begin
-      url = get_strip_url
-      image = Magick::ImageList.new
-      urlimage = open(url)
-      image.from_blob(urlimage.read)
-    rescue OpenURI::HTTPError
-      puts "porblem. retrying..."
-      retry
-    else
-      puts "we made it, writing image"
-      filename = "tmp/strip_#{rand(100)}.gif"
-      image.write(filename)
-      return filename
-    end
+    url = search_for_strip_url
+    image = Magick::ImageList.new
+    urlimage = open(url)
+    image.from_blob(urlimage.read)
+  rescue OpenURI::HTTPError
+    puts 'porblem. retrying...'
+    retry
+  else
+    puts 'we made it, writing image'
+    filename = "tmp/strip_#{rand(100)}.gif"
+    image.write(filename)
+    return filename
   end
 end
