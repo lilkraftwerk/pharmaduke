@@ -12,11 +12,11 @@ require 'json'
 require 'scalpel'
 
 require_relative 'lib/comic_scraper'
+require_relative 'keys.rb' unless ENV['HEROKTRUE']
 require_relative 'lib/custom_twitter'
 require_relative 'lib/image_maker'
 require_relative 'lib/report_line'
 
-require_relative 'keys.rb' unless ENV['HEROKTRUE']
 
 if ENV['HEROKTRUE']
   puts 'doin manual wkhtmltoimage'
