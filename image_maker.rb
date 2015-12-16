@@ -6,10 +6,11 @@ require 'json'
 require 'pathname'
 
 class ImageMaker
-  attr_reader :new_filename
+  attr_reader :new_filename, :report
 
   def initialize(options = {})
     @report = TripReport.new
+    @report.get_line
     get_strip
     find_bottom_of_comic
     crop_image
@@ -75,7 +76,7 @@ class ImageMaker
       "<body>",
       "<div class='container'>",
       "<div style='height: #{@comic_bottom};' class='blankspace'></div>",
-      "<div class='report'>#{@report.random_line}</div></div>",
+      "<div class='report'>#{@report.line}</div></div>",
       "</body>",
       "</html>"
     ].join("")

@@ -36,11 +36,11 @@ class TripReport
 
   def get_dose
     doses = @file["doses"]
-    until doses.join("\n").length < 120
+    until doses.join("\n").length < 116
       doses = doses[0..-2]
     end
     @dose = doses.join("\n")
-    p @dose.length
+    @dose = "xxx" if @dose == ""
   end
 
   def line_is_good?(line)
