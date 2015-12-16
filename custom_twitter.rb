@@ -25,7 +25,7 @@ class CustomTwitter
     end
   end
 
-  def is_last_tweet_older_than_four_hours
+  def last_tweet_older_than_four_hours?
     last = @client.user_timeline.first.created_at
     puts "should we tweet? #{last <= 2.hours.ago}"
     last <= 2.hours.ago
@@ -35,4 +35,3 @@ class CustomTwitter
     @client.update_with_media(text, image)
   end
 end
-

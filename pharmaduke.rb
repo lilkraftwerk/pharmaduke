@@ -10,7 +10,7 @@ def tweet
 end
 
 def local_image
-  image = ImageMaker.new({local: true})
+  ImageMaker.new(local: true)
 end
 
 def should_tweet?
@@ -23,6 +23,5 @@ end
 
 def last_tweet_older_than_four_hours?
   client = CustomTwitter.new
-  client.is_last_tweet_older_than_four_hours
+  client.last_tweet_older_than_four_hours?
 end
-
