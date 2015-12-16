@@ -34,6 +34,7 @@ class ImageMaker
       results[y_value] = test_line_in_comic(y_value) 
     end
     @comic_bottom = results.sort_by{|k, v| v}.first.first
+    puts "bottom is #{@comic_bottom}"
   end
 
   def test_line_in_comic(y_value)
@@ -56,7 +57,9 @@ class ImageMaker
   def make_background
     set_html
     puts "making file"
-    kit = IMGKit.new(@html, quality: 100, width: 305, height: 400)
+    height = 395 - (300 - @comic_bottom)
+    puts "height is #{height}"
+    kit = IMGKit.new(@html, quality: 100, width: 305, height: height)
     kit.stylesheets << "css/styles.css"
     file = kit.to_file("tmp/#{Time.now}.jpg")
     file
@@ -71,7 +74,7 @@ class ImageMaker
       "</head",
       "<body>",
       "<div class='container'>",
-      "<div class='blankspace'></div>",
+      "<div style='height: #{@comic_bottom};' class='blankspace'></div>",
       "<div class='report'>#{@report.random_line}</div></div>",
       "</body>",
       "</html>"

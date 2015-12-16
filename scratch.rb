@@ -11,7 +11,7 @@ test = []
 #   puts
 # end
 
-100.times do |x|
+20.times do |x|
   local_image
 end
 
