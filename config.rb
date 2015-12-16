@@ -11,10 +11,10 @@ require 'pathname'
 require 'json'
 require 'scalpel'
 
-require_relative 'comic_scraper'
-require_relative 'custom_twitter'
-require_relative 'image_maker'
-require_relative 'report_line'
+require_relative 'lib/comic_scraper'
+require_relative 'lib/custom_twitter'
+require_relative 'lib/image_maker'
+require_relative 'lib/report_line'
 
 require_relative 'keys.rb' unless ENV['HEROKTRUE']
 
