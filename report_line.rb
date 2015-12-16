@@ -39,7 +39,7 @@ class TripReport
       doses = doses[0..-2]
     end
     @dose = doses.join("\n")
-    @dose = "xxx" if @dose == ""
+    @dose = "UNKNOWN" if @dose == ""
   end
 
   def line_is_good?(line)
