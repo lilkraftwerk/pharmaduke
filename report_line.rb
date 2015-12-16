@@ -3,6 +3,8 @@ require 'scalpel'
 require 'pry'
 
 class TripReport
+  attr_reader :line, :dose
+
   def initialize
     @trips = Dir["trips/*.json"]
     get_file

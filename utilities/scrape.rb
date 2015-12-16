@@ -77,13 +77,33 @@ def get_all_good_trips
   end
 end
 
+def get_all_old_trips_again
+  dir = Dir["trips/old/*.json"]
+  regex = /old\/(.+).json/
+  trips = []
+  dir.each do |filename|
+    trips << regex.match(filename)[1]
+  end
 
-# get_all_good_trips
-good_trips = []
-File.open('goodones.txt').each do |line|
-    good_trips << line.to_i
+  trips.each do |trip_number|
+    puts "On number #{trip_number}"
+    if File.exist?("trips/#{trip_number}.json")
+      puts "File #{trip_number} already exists. Skipping..."
+    else
+      puts "Doing #{trip_number}"
+      trip = TripReportScraper.new(trip_number) 
+    end
+  end
 end
 
-10.times do 
-  trip = TripReportScraper.new(good_trips.sample.to_s)
-end
+
+get_all_old_trips_again
+# # get_all_good_trips
+# good_trips = []
+# File.open('goodones.txt').each do |line|
+#     good_trips << line.to_i
+# end
+
+# 10.times do 
+#   trip = TripReportScraper.new(good_trips.sample.to_s)
+# end
