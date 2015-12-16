@@ -8,7 +8,10 @@ class TripReportScraper
     @number = trip_number 
     @doc = Nokogiri::HTML(open("https://www.erowid.org/experiences/exp.php?ID=#{@number}"))
     @trip = {}
-    get_text if valid_trip_report?
+    if valid_trip_report?
+      get_text
+      get_doses
+    end
     write_trip_report
   end
 
@@ -16,6 +19,18 @@ class TripReportScraper
     return false if @doc.text["Unable to view experience"]
     return false if @doc.css('div').css('.report-text-surround').empty?
     true 
+  end
+
+  def get_doses
+    @trip[:doses] = []
+    @doc.css('table.dosechart').css('tr').each do |dose| 
+      @trip[:doses] << format_dose_text(dose.text)
+    end
+  end
+
+  def format_dose_text(text)
+    text = text.gsub("DOSE:", "").gsub("\n", "").gsub("\t", "").strip.lstrip
+    test =  text.gsub(/\A[[:space:]]+/, '').gsub(/[[:space:]]+\z/, '').gsub(/[[:space:]]+/, ' ')
   end
 
   def get_text
@@ -62,4 +77,13 @@ def get_all_good_trips
   end
 end
 
-get_all_good_trips
+
+# get_all_good_trips
+good_trips = []
+File.open('goodones.txt').each do |line|
+    good_trips << line.to_i
+end
+
+10.times do 
+  trip = TripReportScraper.new(good_trips.sample.to_s)
+end

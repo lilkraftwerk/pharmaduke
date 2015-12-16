@@ -6,7 +6,6 @@ class TripReport
   def initialize
     @trips = Dir["trips/*.json"]
     get_file
-    get_dose
     split_sentences
   end
 
