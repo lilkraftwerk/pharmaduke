@@ -44,9 +44,6 @@ class TripReportScraper
   end
 end
 
-
-TRIP_RANGE = (1..106861).to_a.map{|number| number.to_s}
-
 def get_all_trips
   TRIP_RANGE.each do |trip_number|
     puts "On number #{trip_number}"
@@ -94,15 +91,3 @@ def get_all_old_trips_again
     end
   end
 end
-
-
-get_all_old_trips_again
-# # get_all_good_trips
-# good_trips = []
-# File.open('goodones.txt').each do |line|
-#     good_trips << line.to_i
-# end
-
-# 10.times do 
-#   trip = TripReportScraper.new(good_trips.sample.to_s)
-# end

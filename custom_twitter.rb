@@ -4,10 +4,10 @@ require 'active_support/time'
 
 require_relative 'keys.rb' unless ENV["HEROKTRUE"]
 
-TWITTER_KEY ||= ENV["TWITTER_KEY"]
-TWITTER_SECRET ||= ENV["TWITTER_SECRET"]
-ACCESS_TOKEN ||= ENV["ACCESS_TOKEN"]
-ACCESS_SECRET ||= ENV["ACCESS_SECRET"]
+TWITTER_KEY ||= ENV['TWITTER_KEY']
+TWITTER_SECRET ||= ENV['TWITTER_SECRET']
+ACCESS_TOKEN ||= ENV['ACCESS_TOKEN']
+ACCESS_SECRET ||= ENV['ACCESS_SECRET']
 
 class CustomTwitter
   attr_reader :client
@@ -33,10 +33,6 @@ class CustomTwitter
 
   def update(text, image)
     @client.update_with_media(text, image)
-  end
-
-  def search(text)
-    @client.search(text, result_type: "recent")
   end
 end
 
