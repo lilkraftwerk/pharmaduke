@@ -5,41 +5,37 @@ class TripReport
   attr_reader :line, :dose
 
   def initialize
-    @trips = Dir["trips/*.json"]
-    get_file
+    @trips = Dir['trips/*.json']
+    read_file
     split_sentences
-    get_line
-    get_dose
+    format_line
+    format_dose
   end
 
-  def get_file
-    @filename = @trips.shuffle.first
+  def read_file
+    @filename = @trips.sample
     @file = JSON.parse(File.open(@filename).read)
-    if @file.empty?
-      get_file
-    end
+    read_file if @file.empty?
   end
 
   def split_sentences
     @split = Scalpel.cut(@file['text'])
   end
 
-  def get_line
-    line = @split.shuffle.first
-    unless line_is_good?(line)
-      get_line
+  def format_line
+    line = @split.sample
+    if line_is_good?(line)
+      @line = ['"', line, '"'].join('')
     else
-      @line = ['"', line, '"'].join("")
+      get_line
     end
   end
 
-  def get_dose
+  def format_dose
     doses = @file['doses']
-    until doses.join("\n").length < 116
-      doses = doses[0..-2]
-    end
+    doses = doses[0..-2] until doses.join("\n").length < 116
     @dose = doses.join("\n")
-    @dose = "UNKNOWN" if @dose == ""
+    @dose = 'UNKNOWN' if @dose == ''
   end
 
   def line_is_good?(line)
@@ -48,6 +44,6 @@ class TripReport
     return false unless line.length > 50
     return false unless line.length < 150
     return false unless ('A'..'Z').include?(line[0])
-    return true
+    true
   end
 end
