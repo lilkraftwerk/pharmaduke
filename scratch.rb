@@ -4,16 +4,16 @@ require_relative 'pharmaduke'
 
 test = []
 
-# 10.times do |x|
-#   t = TripReport.new
-#   puts t.random_line
-#   puts "*" * 10 
-#   puts
-# end
-
-20.times do |x|
-  local_image
+10.times do |x|
+  t = TripReport.new
+  puts t.random_line
+  puts "*" * 10 
+  puts
 end
+
+# 20.times do |x|
+  # local_image
+# end
 
 p test.uniq.length
 

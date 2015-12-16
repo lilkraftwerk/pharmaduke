@@ -1,16 +1,18 @@
 require 'json'
 require 'scalpel'
+require 'pry'
 
 class TripReport
   def initialize
     @trips = Dir["trips/*.json"]
     get_file
+    get_dose
     split_sentences
   end
 
   def get_file
-    filename = @trips.shuffle.first
-    @file = JSON.parse(File.open(filename).read)
+    @filename = @trips.shuffle.first
+    @file = JSON.parse(File.open(@filename).read)
     if @file.empty?
       get_file
     end
