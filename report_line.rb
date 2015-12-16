@@ -1,6 +1,5 @@
 require 'json'
 require 'scalpel'
-require 'pry'
 
 class TripReport
   attr_reader :line, :dose
