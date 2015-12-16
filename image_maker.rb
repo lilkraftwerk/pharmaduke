@@ -1,16 +1,8 @@
-require_relative 'report_line'
-require_relative 'comic_scraper'
-
-require 'imgkit'
-require 'json'
-require 'pathname'
-
 class ImageMaker
   attr_reader :new_filename, :report
 
   def initialize(options = {})
     @report = TripReport.new
-    @report.get_line
     get_strip
     find_bottom_of_comic
     crop_image
@@ -32,10 +24,9 @@ class ImageMaker
     results = {}
     adjusted_height = @image.rows - 12
     (285..adjusted_height).to_a.each do |y_value|
-      results[y_value] = test_line_in_comic(y_value) 
+      results[y_value] = test_line_in_comic(y_value)
     end
-    @comic_bottom = results.sort_by{|k, v| v}.first.first
-    puts "bottom is #{@comic_bottom}"
+    @comic_bottom = results.sort_by{ |_k, v| v }.first.first
   end
 
   def test_line_in_comic(y_value)
@@ -57,11 +48,9 @@ class ImageMaker
 
   def make_background
     set_html
-    puts "making file"
     height = 395 - (300 - @comic_bottom)
-    puts "height is #{height}"
     kit = IMGKit.new(@html, quality: 100, width: 305, height: height)
-    kit.stylesheets << "css/styles.css"
+    kit.stylesheets << 'css/styles.css'
     file = kit.to_file("tmp/#{Time.now}.jpg")
     file
   end
@@ -79,6 +68,6 @@ class ImageMaker
       "<div class='report'>#{@report.line}</div></div>",
       "</body>",
       "</html>"
-    ].join("")
+    ].join('')
   end
 end

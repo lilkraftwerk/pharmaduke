@@ -1,10 +1,3 @@
-# http://www.gocomics.com/marmaduke/2015/12/05
-
-require 'rmagick'
-require 'open-uri'
-require 'nokogiri'
-require 'date'
-
 class ComicScraper
   def format_page_url
     date = format_date
@@ -16,12 +9,12 @@ class ComicScraper
     date[:year] = make_year
     date[:month] = make_month
     date[:day] = make_day
-    format_date if sunday(date)
+    format_date if sunday?(date)
     date
   end
 
   def sunday?(date)
-    Date.new(date[:year].to_i, date[:month].to_i, date[:day].to_i)
+    date_to_test = Date.new(date[:year].to_i, date[:month].to_i, date[:day].to_i)
     date_to_test.strftime('%A') == 'Sunday'
   end
 

@@ -1,6 +1,3 @@
-require 'json'
-require 'scalpel'
-
 class TripReport
   attr_reader :line, :dose
 
@@ -27,7 +24,7 @@ class TripReport
     if line_is_good?(line)
       @line = ['"', line, '"'].join('')
     else
-      get_line
+      format_line
     end
   end
 

@@ -1,9 +1,3 @@
-require 'twitter'
-require 'active_support'
-require 'active_support/time'
-
-require_relative 'keys.rb' unless ENV['HEROKTRUE']
-
 TWITTER_KEY ||= ENV['TWITTER_KEY']
 TWITTER_SECRET ||= ENV['TWITTER_SECRET']
 ACCESS_TOKEN ||= ENV['ACCESS_TOKEN']
