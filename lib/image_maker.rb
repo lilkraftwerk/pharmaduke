@@ -3,18 +3,32 @@ class ImageMaker
 
   def initialize(options = {})
     @report = TripReport.new
-    get_strip
-    find_bottom_of_comic
-    crop_image
-    background_filename = make_background
-    background_image = Magick::Image.read(background_filename)[0]
-    @final = background_image.composite(@image, 7.5, 5, Magick::OverCompositeOp)
-    @new_filename = "tmp/#{rand(10000)}.png" unless options[:local]
-    @new_filename = "output/#{Time.now}.png" if options[:local]
+    format_comic
+    format_background
+
+    @final = @background_image.composite(@image, 7.5, 5, Magick::OverCompositeOp)
+
+    if options[:local]
+      @new_filename = "output/#{Time.now}.png"
+    else
+      @new_filename = "tmp/#{rand(10_000)}.png"
+    end
+
     @final.write(@new_filename)
   end
 
-  def get_strip
+  def format_comic
+    load_comic
+    find_bottom_of_comic
+    crop_comic
+  end
+
+  def format_background
+    background_filename = make_background
+    @background_image = Magick::Image.read(background_filename)[0]
+  end
+
+  def load_comic
     @filename = ComicScraper.new.write_strip
     @image = Magick::Image.read(@filename)[0]
     get_strip if @image.columns > 310
@@ -26,7 +40,7 @@ class ImageMaker
     (285..adjusted_height).to_a.each do |y_value|
       results[y_value] = test_line_in_comic(y_value)
     end
-    @comic_bottom = results.sort_by{ |_k, v| v }.first.first
+    @comic_bottom = results.sort_by { |_k, v| v }.first.first
   end
 
   def test_line_in_comic(y_value)
@@ -37,10 +51,10 @@ class ImageMaker
       total += color.green / 257
       total += color.blue / 257
     end
-    total 
+    total
   end
 
-  def crop_image
+  def crop_comic
     width = 300
     height = @comic_bottom + 2
     @image = @image.crop(0, 0, width, height)

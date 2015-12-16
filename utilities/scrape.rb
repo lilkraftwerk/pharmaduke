@@ -8,8 +8,8 @@ class TripReportScraper
     @doc = Nokogiri::HTML(open("https://www.erowid.org/experiences/exp.php?ID=#{@number}"))
     @trip = {}
     if valid_trip_report?
-      get_text
-      get_doses
+      scrape_text
+      format_doses
     end
     write_trip_report
   end
@@ -20,25 +20,25 @@ class TripReportScraper
     true 
   end
 
-  def get_doses
+  def format_doses
     @trip[:doses] = []
-    @doc.css('table.dosechart').css('tr').each do |dose| 
+    @doc.css('table.dosechart').css('tr').each do |dose|
       @trip[:doses] << format_dose_text(dose.text)
     end
   end
 
   def format_dose_text(text)
-    text = text.gsub('DOSE:', '').gsub("\n", '').gsub("\t", '').strip.lstrip
+    text = text.gsub('DOSE:', '').delete("\n").delete("\t")
     # from Rails 'squish!' helper
-    test =  text.gsub(/\A[[:space:]]+/, '').gsub(/[[:space:]]+\z/, '').gsub(/[[:space:]]+/, ' ')
+    text.delete(/\A[[:space:]]+/).delete(/[[:space:]]+\z/).gsub(/[[:space:]]+/, ' ')
   end
 
-  def get_text
+  def scrape_text
     @trip[:text] = @doc.css('div').css('.report-text-surround').text
   end
 
   def write_trip_report
-    File.open("trips/#{@number}.json", "w") do |f|
+    File.open("trips/#{@number}.json", 'w') do |f|
       f.write(JSON.pretty_generate(@trip))
     end
   end

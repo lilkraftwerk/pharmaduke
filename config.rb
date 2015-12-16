@@ -17,11 +17,10 @@ require_relative 'lib/custom_twitter'
 require_relative 'lib/image_maker'
 require_relative 'lib/report_line'
 
-
 if ENV['HEROKTRUE']
   puts 'doin manual wkhtmltoimage'
   IMGKit.configure do |config|
-     config.wkhtmltoimage = File.join('bin', 'wkhtmltoimage-amd64').to_s
+    config.wkhtmltoimage = File.join('bin', 'wkhtmltoimage-amd64').to_s
   end
 else
   puts 'not using manual wkhtmltoimage'

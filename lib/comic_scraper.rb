@@ -45,10 +45,8 @@ class ComicScraper
     urlimage = open(url)
     image.from_blob(urlimage.read)
   rescue OpenURI::HTTPError
-    puts 'porblem. retrying...'
     retry
   else
-    puts 'we made it, writing image'
     filename = "tmp/strip_#{rand(100)}.gif"
     image.write(filename)
     return filename
