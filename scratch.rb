@@ -6,7 +6,9 @@ test = []
 
 10.times do |x|
   t = TripReport.new
-  puts t.random_line
+  t.get_line
+  puts t.line
+  puts t.dose
   puts "*" * 10 
   puts
 end

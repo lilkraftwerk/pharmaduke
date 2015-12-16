@@ -9,6 +9,8 @@ class TripReport
     @trips = Dir["trips/*.json"]
     get_file
     split_sentences
+    get_line
+    get_dose
   end
 
   def get_file
@@ -23,13 +25,22 @@ class TripReport
     @split = Scalpel.cut(@file['text'])
   end
 
-  def random_line
+  def get_line
     line = @split.shuffle.first
     unless line_is_good?(line)
-      random_line
+      get_line
     else
-      return ['"', line, '"'].join("")
+      @line = ['"', line, '"'].join("")
     end
+  end
+
+  def get_dose
+    doses = @file["doses"]
+    until doses.join("\n").length < 120
+      doses = doses[0..-2]
+    end
+    @dose = doses.join("\n")
+    p @dose.length
   end
 
   def line_is_good?(line)
