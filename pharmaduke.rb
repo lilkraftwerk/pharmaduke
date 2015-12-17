@@ -4,7 +4,7 @@ def tweet
   image = ImageMaker.new
   filename = image.new_filename
   tweeter = CustomTwitter.new
-  tweeter.update(image.report.dose, File.open(filename))
+  tweeter.update('', File.open(filename))
 end
 
 def local_image
