@@ -29,9 +29,7 @@ class TripReport
   end
 
   def format_dose
-    doses = @file['doses']
-    doses = doses[0..-2] until doses.join("\n").length < 116
-    @dose = doses.join("\n")
+    @dose = @file['doses'].first
     @dose = 'UNKNOWN' if @dose == ''
   end
 
