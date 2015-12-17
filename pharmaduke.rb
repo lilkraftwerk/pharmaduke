@@ -12,14 +12,14 @@ def local_image
 end
 
 def should_tweet?
-  last_tweet_older_than_four_hours?
+  last_tweet_older_than_five_hours?
 end
 
 def timed_tweet
   tweet if should_tweet?
 end
 
-def last_tweet_older_than_four_hours?
+def last_tweet_older_than_five_hours?
   client = CustomTwitter.new
-  client.last_tweet_older_than_four_hours?
+  client.last_tweet_older_than_five_hours?
 end
