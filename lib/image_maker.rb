@@ -31,7 +31,7 @@ class ImageMaker
   def load_comic
     @filename = ComicScraper.new.write_strip
     @image = Magick::Image.read(@filename)[0]
-    get_strip if @image.columns > 310
+    load_comic if @image.columns > 310
   end
 
   def find_bottom_of_comic
