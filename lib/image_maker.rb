@@ -14,7 +14,7 @@ class ImageMaker
       @new_filename = "tmp/final_#{Time.now.to_i}.png"
     end
 
-    @final.write(@new_filename)
+    @final.write(@new_filename) { self.quality = 100 }
   end
 
   def format_comic
