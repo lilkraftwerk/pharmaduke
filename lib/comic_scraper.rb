@@ -1,10 +1,7 @@
 class ComicScraper
   def format_page_url
     @date = format_date
-    puts "date: #{@date.to_s}"
-    url = "http://www.gocomics.com/marmaduke/#{@date[:year]}/#{@date[:month]}/#{@date[:day]}"
-    puts "url: #{url}" 
-    url 
+    "http://www.gocomics.com/marmaduke/#{@date[:year]}/#{@date[:month]}/#{@date[:day]}"
   end
 
   def format_date
