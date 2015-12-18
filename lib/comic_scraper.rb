@@ -41,7 +41,7 @@ class ComicScraper
 
   def search_for_strip_url
     @doc = Nokogiri::HTML(open(format_page_url))
-    search_for_strip_url if redirected_to_latest_comic? 
+    search_for_strip_url if redirected_to_latest_comic?
     @strip_url = @doc.css('.strip').attr('src').value
   end
 
