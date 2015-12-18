@@ -9,7 +9,6 @@ class ComicScraper
     date[:year] = make_year
     date[:month] = make_month
     date[:day] = make_day
-    puts "sunday: #{sunday?(date)}"
     format_date if sunday?(date)
     date
   end

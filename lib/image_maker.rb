@@ -65,7 +65,7 @@ class ImageMaker
     height = 395 - (300 - @comic_bottom)
     kit = IMGKit.new(@html, quality: 100, width: 305, height: height)
     kit.stylesheets << 'css/styles.css'
-    file = kit.to_file("tmp/#{Time.now}.jpg")
+    file = kit.to_file("tmp/#{Time.now}.png")
     file
   end
 
