@@ -47,7 +47,7 @@ class ComicScraper
   rescue OpenURI::HTTPError
     retry
   else
-    filename = "tmp/strip_#{rand(100)}.gif"
+    filename = "tmp/strip_#{Time.now.to_i}.gif"
     image.write(filename)
     return filename
   end

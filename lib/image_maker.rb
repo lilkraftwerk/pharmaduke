@@ -9,9 +9,9 @@ class ImageMaker
     @final = @background_image.composite(@image, 7.5, 5, Magick::OverCompositeOp)
 
     if options[:local]
-      @new_filename = "output/#{Time.now}.png"
+      @new_filename = "output/final_#{Time.now.to_i}.png"
     else
-      @new_filename = "tmp/#{rand(10_000)}.png"
+      @new_filename = "tmp/final_#{Time.now.to_i}.png"
     end
 
     @final.write(@new_filename)
