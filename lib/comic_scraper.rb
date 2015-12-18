@@ -1,7 +1,10 @@
 class ComicScraper
   def format_page_url
-    date = format_date
-    "http://www.gocomics.com/marmaduke/#{date[:year]}/#{date[:month]}/#{date[:day]}"
+    @date = format_date
+    puts "date: #{@date.to_s}"
+    url = "http://www.gocomics.com/marmaduke/#{@date[:year]}/#{@date[:month]}/#{@date[:day]}"
+    puts "url: #{url}" 
+    url 
   end
 
   def format_date
@@ -9,8 +12,13 @@ class ComicScraper
     date[:year] = make_year
     date[:month] = make_month
     date[:day] = make_day
+    puts "sunday: #{sunday?(date)}"
     format_date if sunday?(date)
     date
+  end
+
+  def redirected_to_latest_comic?
+    @doc.css('a').css('.newest').empty?
   end
 
   def sunday?(date)
@@ -35,19 +43,20 @@ class ComicScraper
   end
 
   def search_for_strip_url
-    page_url = format_page_url
-    Nokogiri::HTML(open(page_url)).css('.strip').attr('src').value
+    @doc = Nokogiri::HTML(open(format_page_url))
+    search_for_strip_url if redirected_to_latest_comic? 
+    @strip_url = @doc.css('.strip').attr('src').value
   end
 
   def write_strip
-    url = search_for_strip_url
+    search_for_strip_url
     image = Magick::ImageList.new
-    urlimage = open(url)
+    urlimage = open(@strip_url)
     image.from_blob(urlimage.read)
   rescue OpenURI::HTTPError
     retry
   else
-    filename = "tmp/strip_#{Time.now.to_i}.gif"
+    filename = "tmp/strip_#{@date[:year]}#{@date[:month]}#{@date[:day]}.gif"
     image.write(filename)
     return filename
   end
