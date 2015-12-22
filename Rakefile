@@ -9,3 +9,7 @@ end
 task :timed_tweet do
   timed_tweet
 end
+
+task :local do 
+  local_image
+end

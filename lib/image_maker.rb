@@ -1,3 +1,4 @@
+require 'pry'
 class ImageMaker
   attr_reader :new_filename, :report
 
@@ -7,6 +8,7 @@ class ImageMaker
     format_background
 
     @final = @background_image.composite(@image, 7.5, 5, Magick::OverCompositeOp)
+    @final.colorspace = Magick::RGBColorspace
 
     if options[:local]
       @new_filename = "output/final_#{Time.now.to_i}.png"
@@ -65,8 +67,7 @@ class ImageMaker
     height = 395 - (300 - @comic_bottom)
     kit = IMGKit.new(@html, quality: 10, width: 305, height: height)
     kit.stylesheets << 'css/styles.css'
-    file = kit.to_file("tmp/#{Time.now}.png")
-    file
+    kit.to_file("tmp/#{Time.now}.png")
   end
 
   def set_html
