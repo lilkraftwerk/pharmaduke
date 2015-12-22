@@ -1,4 +1,3 @@
-require 'pry'
 class ImageMaker
   attr_reader :new_filename, :report
 
